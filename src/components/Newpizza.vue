@@ -73,7 +73,8 @@ export default {
          axios.post('/menu-jmz.json',data)
          .then(res=>{
              console.log(res.data)
-             this.$router.push('/menu')
+             this.$store.commit('pushMenuItems',data)
+            //  this.$router.push('/menu')
          })   
 
           

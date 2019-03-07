@@ -8,9 +8,16 @@
         <router-link class="py-2 d-none d-md-inline-block" to="/menu" >菜单</router-link>
         <router-link class="py-2 d-none d-md-inline-block" to="/admin" >管理</router-link>
         <router-link class="py-2 d-none d-md-inline-block" to="/about" >关于我们</router-link>
+        <template v-if="!isLogin">
         <router-link class="py-2 d-none d-md-inline-block" to="/login" >登陆</router-link>
         <router-link class="py-2 d-none d-md-inline-block" to="/register" >注册</router-link>
-      </div>
+         </template>
+        <template v-else>
+            <p class="py-2 d-none d-md-inline-block" to="/login" >{{currentUser}} <span class="text-info" @click="clearLogin">[退出]</span></p>
+        </template>
+        <!-- <p>97890[退出]</p> -->
+       <!-- currentUser: {{currentUser}}--- {{isLogin}} -->
+      </div> 
     </nav>    
 </template>
 
@@ -20,14 +27,29 @@ export default {
   data () {
     return {
       msg: '这是Header主页'
+    } 
+  },
+ computed:{
+    currentUser(){
+      return this.$store.getters.currentUser
+    },
+    isLogin(){
+      return this.$store.getters.isLogin
     }
-  }
+  },
+  methods:{
+    clearLogin(){
+      this.$store.dispatch('setUser',null)
+      sessionStorage.removeItem('user')
+      this.$router.push('/login')
+    }
+  }  
+ 
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.site-header{
+/* .site-header{
   background: rgba(0,0,0,0.6)
-}
-</style>
+} */
+</style> 

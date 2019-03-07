@@ -84,7 +84,7 @@ export default {
   data () {
     return {
       msg: '这是menu主页',
-      items:{
+      // items:{
         // 0:{
         //   name:"芝士pizza",
         //   description:'这是一款深受大众喜爱的pizza。',
@@ -115,7 +115,7 @@ export default {
         //   ]
     
         // }
-      },
+      // },
       //当我们在左边添加数据时，newItems 才有数据值
       newItems:[]
     }
@@ -123,7 +123,8 @@ export default {
   mounted(){
     axios.get('./menu-jmz.json')
     .then(res=>{
-      this.items=res.data
+      // this.items=res.data
+      this.$store.commit('setMenuItems',res.data)
     })
   },
   methods:{
@@ -173,6 +174,9 @@ export default {
     },
     totalNum(){
       return this.newItems.length
+    },
+    items(){
+      return this.$store.getters.getMenuItems
     }
   }
 }

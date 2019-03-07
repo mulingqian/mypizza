@@ -32,6 +32,11 @@ export default {
   },
   methods:{
     onSubmit(){
+        // 非空验证
+      if(this.password==''&&this.username==''){
+        return
+      }
+      //重复验证
       if(this.password===this.repassword){
         var formDate={
           username:this.username,

@@ -83,7 +83,23 @@ export default new Router({
         {
             path: '/admin',
             name: 'Admin',
-            component: Admin
+            component: Admin,
+            // 加上导航守卫
+            beforeEnter: (to, from, next) => {
+                alert('您正在进入admin页面，请确保有操作权限')
+                    // next()//表示继续，允许进入当前路由
+                    //next(false)表示不允许进入
+                    // next('/register')进入相应页面
+                    // to 是到哪里去
+                    // from 是从哪里来
+                if (sessionStorage.user) {
+                    next()
+                } else {
+                    alert('您还没有登陆，请先登陆')
+                    alert('页面正在跳转....')
+                    next('/login')
+                }
+            }
         },
         {
             path: '/login',

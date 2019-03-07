@@ -27,7 +27,7 @@ export default {
   data () {
     return {
       msg: '这是newmenu主页',
-      items:[]
+      // items:[]
     }
   },
   mounted(){
@@ -35,14 +35,19 @@ export default {
      axios.get('./menu-jmz.json')
      .then(res=>{
         //  console.log(res.data)
+        var menus=[]
          for(var key in res.data){
             //  console.log(key)
              var item =res.data[key]
              item.id = key;
-             that.items.push(item)
+            //  that.items.push(item)
+            //用当前的menu来实现数据的管理
+            menus.push(res.data[key])
          }
 
         //  console.log(that.items)
+        //优势在于通过vuex=>store,直接实现了数据的更新
+        that.$store.commit('setMenuItems',menus)
      })
   },
   methods:{
@@ -50,12 +55,18 @@ export default {
         axios.delete('./menu-jmz/'+item.id+'.json')
       .then(res=>{
          console.log('删除成功')
-         this.$router.push('/menu') 
+        //  this.$router.push('/menu') 
+        this.$store.commit('deleteMenuItems',item)
         //记住刷新页面的方法
         // location.reload()  
       })  
    }
-  }  
+  }  ,
+  computed:{
+    items(){
+      return this.$store.getters.getMenuItems
+    }
+  }
 }
 </script>
 <style>
